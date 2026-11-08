@@ -1,0 +1,65 @@
+[package]
+name = "tuikit"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "GPL-3.0-only"
+description = "Internal shared primitives for Ratatui/Crossterm TUIs: terminal lifecycle, HTTP helpers, paths/config, and theme/color utilities."
+repository = "https://github.com/craftty-org/tuikit"
+homepage = "https://github.com/craftty-org/tuikit"
+readme = "README.md"
+publish = false
+include = ["src/**", "Cargo.toml", "README.md", "LICENSE", "CHANGELOG.md"]
+
+[features]
+default = []
+terminal = ["dep:crossterm", "dep:ratatui"]
+http = ["dep:reqwest", "dep:tokio", "dep:futures-util", "dep:serde", "dep:serde_json", "dep:thiserror"]
+config = ["dep:serde", "dep:toml", "dep:dirs", "dep:thiserror"]
+paths = ["dep:dirs"]
+fslog = ["dep:chrono", "dep:libc"]
+theme-catalog = ["dep:serde", "dep:toml"]
+palette = ["dep:image", "dep:color-thief"]
+effects = ["dep:tachyonfx", "dep:ratatui"]
+cache-sqlite = ["dep:rusqlite"]
+cache-codec = ["dep:zstd", "dep:serde", "dep:serde_json", "dep:thiserror"]
+full = [
+  "terminal",
+  "http",
+  "config",
+  "paths",
+  "fslog",
+  "theme-catalog",
+  "palette",
+  "effects",
+  "cache-sqlite",
+  "cache-codec",
+]
+
+[dependencies]
+serde = { version = "1", features = ["derive"], optional = true }
+serde_json = { version = "1", optional = true }
+toml = { version = "0.8", optional = true }
+dirs = { version = "6", optional = true }
+thiserror = { version = "2", optional = true }
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"], optional = true }
+crossterm = { version = "0.29", features = ["event-stream", "bracketed-paste"], optional = true }
+ratatui = { version = "0.30", default-features = false, features = ["crossterm"], optional = true }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json", "stream"], optional = true }
+tokio = { version = "1", features = ["time", "rt"], optional = true }
+futures-util = { version = "0.3", default-features = false, features = ["std"], optional = true }
+image = { version = "0.25", default-features = false, optional = true }
+color-thief = { version = "0.2", optional = true }
+tachyonfx = { version = "0.25", optional = true }
+rusqlite = { version = "0.37", features = ["bundled"], optional = true }
+zstd = { version = "0.14", optional = true }
+libc = { version = "0.2", optional = true }
+
+[dev-dependencies]
+tempfile = "3"
+tokio = { version = "1", features = ["macros", "rt"] }
+serde = { version = "1", features = ["derive"] }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
