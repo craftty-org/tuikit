@@ -9,6 +9,10 @@ pub mod text;
 pub mod theme;
 pub mod time;
 
+#[cfg(feature = "widgets-ui")]
+#[cfg_attr(docsrs, doc(cfg(feature = "widgets-ui")))]
+pub mod widgets;
+
 #[cfg(feature = "terminal")]
 #[cfg_attr(docsrs, doc(cfg(feature = "terminal")))]
 pub mod terminal;
